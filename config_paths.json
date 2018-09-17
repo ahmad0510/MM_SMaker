@@ -1,0 +1,16 @@
+{
+  "bucket_name" : "s3://agco-dev-dl1",
+  "pretrain_data_base_path":"annonymized-denorm",
+  "training_set_base_path":"annonymized-denorm/train",
+  "validation_set_base_path":"annonymized-denorm/validate",
+  "readytoscore_data_base_path":"deanonymized-denorm/ready_to_score",
+  "scores_file_base_path":"insights",
+  "pretrain_file_name" : "iris_expanded.csv", 
+  "training_set_file_name" : "iris_training_set.csv",  
+  "validation_set_file_name" : "iris_validation_set.csv",  
+  "readytoscore_file_name" : "iris_ready_to_score_expanded.csv",
+  "scoring_set_base_path" : "deanonymized-denorm/scoring_set",
+  "scoring_set_file_name" : "iris_scoring_set.csv",  
+  "model_artifacts_base_path" : "output",
+  "model_scripts_base_path": "scripts"  
+}

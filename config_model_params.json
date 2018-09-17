@@ -1,0 +1,16 @@
+{
+  "kernel":"Python3",
+  "model_library":"sklearn",  
+  "model_family" : "ensemble",  
+  "model_type": "RandomForestClassifier",
+  "hyperparameters": {
+    "n_estimators": "50",
+    "max_depth": "10",
+    "max_features": "'sqrt'",
+    "min_samples_leaf" : "2",
+    "random_state": "5" 
+  },
+  "cv_folds": "5",
+  "prediction_mode": "classification",
+  "scoring_mode" : "batch"  
+}
