@@ -107,3 +107,4 @@ with open("dockerfile_template.txt") as f1:
         while 22<=i<=38:
             f2.write(lines[i])
             i=i+1            
+print("docker setup completed")
