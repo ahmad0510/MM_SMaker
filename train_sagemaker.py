@@ -16,21 +16,21 @@ role = get_execution_role()
 s3 = boto3.client("s3")
 
 
-bucket_name = json.loads(open(r'config_paths.json').read())["bucket_name"]
-pretrain_data_base_path = json.loads(open(r'config_paths.json').read())["pretrain_data_base_path"]
-training_set_base_path = json.loads(open(r'config_paths.json').read())["training_set_base_path"]
-readytoscore_data_base_path = json.loads(open(r'config_paths.json').read())["readytoscore_data_base_path"]
-pretrain_file_name = json.loads(open(r'config_paths.json').read())["pretrain_file_name"]
-readytoscore_file_name = json.loads(open(r'config_paths.json').read())["readytoscore_file_name"]
-training_set_file_name = json.loads(open(r'config_paths.json').read())["training_set_file_name"]
-scoring_set_base_path = json.loads(open(r'config_paths.json').read())["scoring_set_base_path"]
-scoring_set_file_name = json.loads(open(r'config_paths.json').read())["scoring_set_file_name"]
-model_artifacts_base_path = json.loads(open(r'config_paths.json').read())["model_artifacts_base_path"]
+bucket_name = json.loads(open('config_paths.json').read())["bucket_name"]
+pretrain_data_base_path = json.loads(open('config_paths.json').read())["pretrain_data_base_path"]
+training_set_base_path = json.loads(open('config_paths.json').read())["training_set_base_path"]
+readytoscore_data_base_path = json.loads(open('config_paths.json').read())["readytoscore_data_base_path"]
+pretrain_file_name = json.loads(open('config_paths.json').read())["pretrain_file_name"]
+readytoscore_file_name = json.loads(open('config_paths.json').read())["readytoscore_file_name"]
+training_set_file_name = json.loads(open('config_paths.json').read())["training_set_file_name"]
+scoring_set_base_path = json.loads(open('config_paths.json').read())["scoring_set_base_path"]
+scoring_set_file_name = json.loads(open('config_paths.json').read())["scoring_set_file_name"]
+model_artifacts_base_path = json.loads(open('config_paths.json').read())["model_artifacts_base_path"]
 
 
-use_case_name = json.loads(open(r'config_info.json').read())["use_case_name"]
-model_name = json.loads(open(r'config_info.json').read())["model_name"]
-model_version = json.loads(open(r'config_info.json').read())["model_version"]
+use_case_name = json.loads(open('config_info.json').read())["use_case_name"]
+model_name = json.loads(open('config_info.json').read())["model_name"]
+model_version = json.loads(open('config_info.json').read())["model_version"]
 
 # this is the data that is input for feature engineering during training
 pretrain_data_location = bucket_name + "/" + pretrain_data_base_path + "/" + use_case_name + "/" + pretrain_file_name
@@ -43,10 +43,10 @@ training_set_file_location = bucket_name + "/" + training_set_base_path + "/" + 
 scoring_set_file_location = bucket_name + "/" + scoring_set_base_path + "/" + use_case_name + "/" + scoring_set_file_name
 
 # training and scoring instance values
-training_instance = json.loads(open(r'instance_size.json').read())["training_instance"]
-scoring_instance = json.loads(open(r'instance_size.json').read())["scoring_instance"]
-num_training_instances = int(json.loads(open(r'instance_size.json').read())["num_training_instances"])
-num_scoring_instances = int(json.loads(open(r'instance_size.json').read())["num_scoring_instances"])
+training_instance = json.loads(open('instance_size.json').read())["training_instance"]
+scoring_instance = json.loads(open('instance_size.json').read())["scoring_instance"]
+num_training_instances = int(json.loads(open('instance_size.json').read())["num_training_instances"])
+num_scoring_instances = int(json.loads(open('instance_size.json').read())["num_scoring_instances"])
 
 
 #..................Call the model transformation script ...................................
@@ -129,8 +129,8 @@ config_params_model_scoring_mode = json.loads(open(r'config_model_params.json').
 
 if config_params_model_scoring_mode == "real":
     ## Read the endpoint config and names from the json file
-    endpoint_config_name = json.loads(open(r'train_job_details.json').read())["endpoint_config_name"]
-    endpoint_name = json.loads(open(r'train_job_details.json').read())["endpoint_name"]
+    endpoint_config_name = json.loads(open('train_job_details.json').read())["endpoint_config_name"]
+    endpoint_name = json.loads(open('train_job_details.json').read())["endpoint_name"]
     create_endpoint_response = sm.create_endpoint(EndpointName=endpoint_name,EndpointConfigName=endpoint_config_name)
 
     resp = sm.describe_endpoint(EndpointName=endpoint_name)
@@ -153,7 +153,7 @@ if config_params_model_scoring_mode == "real":
     
 #....................Move the config files into a dedicated location..........................
 
-model_scripts_base_path = json.loads(open(r'config_paths.json').read())["model_scripts_base_path"]
+model_scripts_base_path = json.loads(open('config_paths.json').read())["model_scripts_base_path"]
 
 
 s3_resource = boto3.resource('s3')
