@@ -7,6 +7,7 @@ import numpy
 import io
 import os
 import sys
+import pandas as pd
 sm = boto3.client('sagemaker')
 
 #.................................Read the config files.........................
@@ -17,7 +18,7 @@ sm = boto3.client('sagemaker')
 
 BucketName = "agco-dev-dl1"
 UseCaseName = "iris-test"
-ModelName = "france"
+ModelName = "germany"
 ModelVersion = "v-1"
 
 ################## TEST CODE #########################################
@@ -48,6 +49,8 @@ pretrain_data_base_path = json_content_paths["pretrain_data_base_path"]
 pretrain_file_name = json_content_paths["pretrain_file_name"]
 readytoscore_data_base_path = json_content_paths["readytoscore_data_base_path"]
 readytoscore_file_name = json_content_paths["readytoscore_file_name"]
+training_set_base_path = json_content_paths["training_set_base_path"]
+training_set_file_name = json_content_paths["training_set_file_name"]
 scoring_set_base_path = json_content_paths["scoring_set_base_path"]
 scoring_set_file_name = json_content_paths["scoring_set_file_name"]
 endpoint_config_name = json_content_train_job["endpoint_config_name"]
@@ -66,28 +69,39 @@ scoring_set_file_location = bucket_name + "/" + scoring_set_base_path + "/" + us
 
 scoring_set_prefix = scoring_set_base_path + "/" + use_case_name
 
+endpoints_all_json = sm.list_endpoints()
+endpoints_list = endpoints_all_json['Endpoints']
+endpoint_name  = json.loads(open('train_job_details.json').read())["endpoint_name"]
+endpoint_exists = None
+for ep in endpoints_list:
+    if endpoint_name == ep['EndpointName']:
+        endpoint_exists = True
+        break
+    else:
+        endpoint_exists = False
 
-if config_params_model_scoring_mode == "batch":
-    ## Read the endpoint config and names from the json file
+if endpoint_exists == False:
+    if config_params_model_scoring_mode == "batch":
+        ## Read the endpoint config and names from the json file
 
-    create_endpoint_response = sm.create_endpoint(EndpointName=endpoint_name,EndpointConfigName=endpoint_config_name)
+        create_endpoint_response = sm.create_endpoint(EndpointName=endpoint_name,EndpointConfigName=endpoint_config_name)
 
-    resp = sm.describe_endpoint(EndpointName=endpoint_name)
-    status = resp['EndpointStatus']
-    print("Status: " + status)
-
-    try:
-        sm.get_waiter('endpoint_in_service').wait(EndpointName=endpoint_name)
-    finally:
         resp = sm.describe_endpoint(EndpointName=endpoint_name)
         status = resp['EndpointStatus']
-        print("Arn: " + resp['EndpointArn'])
-        print("Create endpoint ended with status: " + status)
+        print("Status: " + status)
 
-        if status != 'InService':
-            mesE = sm.describe_endpoint(EndpointName=endpoint_name)['FailureReason']
-            print('Create endpoint failed with the following error: {}'.format(message))
-            raise Exception('Endpoint creation did not succeed')
+        try:
+            sm.get_waiter('endpoint_in_service').wait(EndpointName=endpoint_name)
+        finally:
+            resp = sm.describe_endpoint(EndpointName=endpoint_name)
+            status = resp['EndpointStatus']
+            print("Arn: " + resp['EndpointArn'])
+            print("Create endpoint ended with status: " + status)
+
+            if status != 'InService':
+                message = sm.describe_endpoint(EndpointName=endpoint_name)['FailureReason']
+                print('Create endpoint failed with the following error: {}'.format(message))
+                raise Exception('Endpoint creation did not succeed')
             
 
 #..................Call the model transformation script ...................................
