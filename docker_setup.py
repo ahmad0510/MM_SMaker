@@ -3,19 +3,19 @@ import json
 import os
 
 # read config_info file
-use_case_name = json.loads(open(r'config_info.json').read())["use_case_name"]
-model_name = json.loads(open(r'config_info.json').read())["model_name"]
-model_version = json.loads(open(r'config_info.json').read())["model_version"]
+use_case_name = json.loads(open('config_info.json').read())["use_case_name"]
+model_name = json.loads(open('config_info.json').read())["model_name"]
+model_version = json.loads(open('config_info.json').read())["model_version"]
 
 # read config_model_params file
-config_params_kernel = json.loads(open(r'config_model_params.json').read())["kernel"]
-config_params_model_library = json.loads(open(r'config_model_params.json').read())["model_library"]
-config_params_model_family = json.loads(open(r'config_model_params.json').read())["model_family"]
-config_params_model_type = json.loads(open(r'config_model_params.json').read())["model_type"]
-config_params_model_hyperparameters = json.loads(open(r'config_model_params.json').read())["hyperparameters"]
+config_params_kernel = json.loads(open('config_model_params.json').read())["kernel"]
+config_params_model_library = json.loads(open('config_model_params.json').read())["model_library"]
+config_params_model_family = json.loads(open('config_model_params.json').read())["model_family"]
+config_params_model_type = json.loads(open('config_model_params.json').read())["model_type"]
+config_params_model_hyperparameters = json.loads(open('config_model_params.json').read())["hyperparameters"]
 
 # read the config_packages file
-with open(r'config_packages.csv','r') as text_file:
+with open('config_packages.csv','r') as text_file:
     package_list = text_file.read().split(',')
 
 # dynamically generate the train file
